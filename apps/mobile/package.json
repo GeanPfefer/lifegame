@@ -1,0 +1,27 @@
+{
+  "name": "@lifegame/mobile",
+  "version": "0.0.1",
+  "private": true,
+  "main": "expo-router/entry",
+  "scripts": {
+    "dev": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@lifegame/core": "*",
+    "@lifegame/types": "*",
+    "@supabase/supabase-js": "^2.48.1",
+    "expo": "~56.0.6",
+    "expo-router": "~56.2.7",
+    "expo-status-bar": "~56.0.4",
+    "react": "18.3.1",
+    "react-native": "0.85.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.25.2",
+    "@types/react": "~19.2.15",
+    "typescript": "^5.7.3"
+  }
+}

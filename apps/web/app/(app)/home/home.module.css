@@ -1,0 +1,208 @@
+.container {
+  min-height: 100vh;
+  padding: 40px 24px;
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+/* ─── Header ─────────────────────────────────────────── */
+
+.header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.name {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: var(--text-primary);
+}
+
+.characterMeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.level {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.separator {
+  color: var(--text-muted);
+}
+
+.era {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+/* ─── Content grid ───────────────────────────────────── */
+
+.content {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+@media (max-width: 680px) {
+  .content {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+/* ─── Section label ──────────────────────────────────── */
+
+.sectionLabel {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+/* ─── Radar ──────────────────────────────────────────── */
+
+.radarSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ─── Pillars ────────────────────────────────────────── */
+
+.pillarsSection {
+  display: flex;
+  flex-direction: column;
+}
+
+.pillarList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pillarCard {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.pillarPriority {
+  border-color: rgba(124, 92, 252, 0.3);
+}
+
+.pillarTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pillarName {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.pillarLevel {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+/* ─── XP bar ─────────────────────────────────────────── */
+
+.xpBar {
+  height: 4px;
+  background: var(--bg-elevated);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.xpFill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  min-width: 2px;
+}
+
+/* ─── Pillar footer ──────────────────────────────────── */
+
+.pillarBottom {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.xpTotal {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.xpToNext {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.priorityBadge {
+  margin-left: auto;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  background: var(--accent-subtle);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+}
+
+/* ─── Empty state ────────────────────────────────────── */
+
+.empty {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* ─── Footer / CTA ───────────────────────────────────── */
+
+.footer {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 16px;
+}
+
+.logButton {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  padding: 14px 36px;
+  font-size: 15px;
+  font-weight: 600;
+  transition: background 0.15s;
+}
+
+.logButton:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+.logButton:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}

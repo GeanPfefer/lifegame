@@ -1,0 +1,118 @@
+.characterCard {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 24px;
+  background: var(--bg-surface);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-lg);
+  margin-bottom: 32px;
+}
+
+.levelBadge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  background: var(--accent);
+  border-radius: var(--radius);
+  flex-shrink: 0;
+}
+
+.levelNumber {
+  font-size: 28px;
+  font-weight: 800;
+  color: #fff;
+  font-family: var(--font-mono);
+  line-height: 1;
+}
+
+.levelLabel {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.characterInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.characterName {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.era {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* Pillars */
+.section {
+  margin-bottom: 32px;
+}
+
+.sectionTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 12px;
+}
+
+.pillarGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.pillarItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.priority {
+  border-color: var(--accent);
+  background: var(--accent-subtle);
+}
+
+.pillarName {
+  flex: 1;
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+.pillarBaseline {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+.priorityTag {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 2px 6px;
+  background: var(--accent-subtle);
+  border-radius: 4px;
+}
+
+.error {
+  font-size: 13px;
+  color: var(--danger);
+  margin-bottom: 12px;
+}

@@ -1,0 +1,84 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  text-align: left;
+  transition: border-color 0.15s, background 0.15s, opacity 0.15s;
+}
+
+.item:hover:not(:disabled) {
+  border-color: var(--border-focus);
+}
+
+.selected {
+  border-color: var(--accent);
+  background: var(--accent-subtle);
+}
+
+.dimmed {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.rankBadge {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--accent-subtle);
+  font-size: 13px;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  flex-shrink: 0;
+}
+
+.selected .rankBadge {
+  background: var(--accent);
+  color: #fff;
+}
+
+.empty {
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--border);
+}
+
+.pillarName {
+  flex: 1;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.check {
+  font-size: 16px;
+  color: var(--accent);
+}
+
+.error {
+  font-size: 13px;
+  color: var(--danger);
+  margin-bottom: 8px;
+}
+
+.hint {
+  font-size: 13px;
+  color: var(--text-muted);
+  text-align: center;
+  margin-bottom: 16px;
+}
