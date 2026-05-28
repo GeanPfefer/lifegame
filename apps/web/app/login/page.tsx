@@ -59,6 +59,10 @@ export default async function LoginPage({ searchParams }: Props) {
         </form>
 
         <p className={styles.footer}>
+          <a href="/forgot-password" className={styles.link}>Esqueci minha senha</a>
+        </p>
+
+        <p className={styles.footer}>
           Não tem conta?{' '}
           <a href="/signup" className={styles.link}>Criar conta</a>
         </p>
