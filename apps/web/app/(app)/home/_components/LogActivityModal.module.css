@@ -1,0 +1,347 @@
+/* ─── FAB ──────────────────────────────────────────────── */
+
+.fab {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  padding: 14px 36px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.fab:hover {
+  background: var(--accent-hover);
+}
+
+/* ─── Backdrop ─────────────────────────────────────────── */
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 40;
+  animation: fadeIn 0.15s ease;
+}
+
+/* ─── Modal ────────────────────────────────────────────── */
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 50;
+  width: 100%;
+  max-width: 460px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px 28px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  animation: slideUp 0.2s ease;
+}
+
+@media (max-width: 520px) {
+  .modal {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    transform: none;
+    max-width: 100%;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    animation: slideUpMobile 0.2s ease;
+  }
+}
+
+/* ─── Header ───────────────────────────────────────────── */
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modalTitle {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.3px;
+}
+
+.closeBtn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  line-height: 1;
+  transition: color 0.1s;
+}
+
+.closeBtn:hover {
+  color: var(--text-primary);
+}
+
+/* ─── Section ──────────────────────────────────────────── */
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-muted);
+}
+
+.optional {
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 11px;
+}
+
+/* ─── Pillar grid ──────────────────────────────────────── */
+
+.pillarGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.pill {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 7px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.12s;
+}
+
+.pill:hover {
+  border-color: var(--accent);
+  color: var(--text-primary);
+}
+
+.pillActive {
+  background: var(--accent-subtle);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ─── Duration ─────────────────────────────────────────── */
+
+.durationRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.durationChip {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 6px 12px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.12s;
+}
+
+.durationChip:hover {
+  border-color: var(--accent);
+  color: var(--text-primary);
+}
+
+.durationChipActive {
+  background: var(--accent-subtle);
+  border-color: var(--accent);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.durationInput {
+  width: 72px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 6px 10px;
+  font-size: 13px;
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color 0.15s;
+  margin-left: auto;
+}
+
+.durationInput:focus {
+  border-color: var(--border-focus);
+}
+
+/* ─── XP preview card ──────────────────────────────────── */
+
+.xpCard {
+  background: var(--bg-elevated);
+  border: 1px solid rgba(124, 92, 252, 0.25);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.xpLoading {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.xpBase {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.xpBonus {
+  font-size: 12px;
+  color: var(--text-secondary);
+  display: flex;
+  justify-content: space-between;
+}
+
+.xpBonus span {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.xpTotal {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--accent);
+  margin-top: 4px;
+  letter-spacing: -0.5px;
+}
+
+.xpMultiplier {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+/* ─── Note ─────────────────────────────────────────────── */
+
+.noteInput {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  font-size: 14px;
+  color: var(--text-primary);
+  outline: none;
+  resize: none;
+  width: 100%;
+  font-family: inherit;
+  transition: border-color 0.15s;
+}
+
+.noteInput:focus {
+  border-color: var(--border-focus);
+}
+
+.noteInput::placeholder {
+  color: var(--text-muted);
+}
+
+/* ─── Error ────────────────────────────────────────────── */
+
+.error {
+  font-size: 13px;
+  color: var(--danger);
+}
+
+/* ─── Submit ───────────────────────────────────────────── */
+
+.submitBtn {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  padding: 13px;
+  font-size: 15px;
+  font-weight: 600;
+  width: 100%;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.submitBtn:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+.submitBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ─── Success state ────────────────────────────────────── */
+
+.success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 40px 0;
+}
+
+.successXP {
+  font-size: 48px;
+  font-weight: 800;
+  color: var(--accent);
+  letter-spacing: -2px;
+  animation: pop 0.3s ease;
+}
+
+.successMsg {
+  font-size: 15px;
+  color: var(--text-secondary);
+}
+
+/* ─── Animations ───────────────────────────────────────── */
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translate(-50%, -46%); }
+  to   { opacity: 1; transform: translate(-50%, -50%); }
+}
+
+@keyframes slideUpMobile {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0);   opacity: 1; }
+}
+
+@keyframes pop {
+  0%   { transform: scale(0.7); opacity: 0; }
+  70%  { transform: scale(1.05); }
+  100% { transform: scale(1); opacity: 1; }
+}

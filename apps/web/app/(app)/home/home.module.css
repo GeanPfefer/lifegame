@@ -187,22 +187,3 @@
   padding-bottom: 16px;
 }
 
-.logButton {
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  border-radius: var(--radius);
-  padding: 14px 36px;
-  font-size: 15px;
-  font-weight: 600;
-  transition: background 0.15s;
-}
-
-.logButton:hover:not(:disabled) {
-  background: var(--accent-hover);
-}
-
-.logButton:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}

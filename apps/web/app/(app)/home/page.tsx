@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { getXPToNextLevel, getTotalXPForLevel, getEraForLevel, getCharacterLevel } from '@lifegame/core';
 import LifeRadar from './_components/LifeRadar';
+import LogActivityModal from './_components/LogActivityModal';
 import styles from './home.module.css';
 
 export default async function HomePage() {
@@ -101,9 +102,7 @@ export default async function HomePage() {
       </div>
 
       <div className={styles.footer}>
-        <button className={styles.logButton} disabled>
-          + Registrar atividade
-        </button>
+        <LogActivityModal pillars={pillars.map(p => ({ id: p.id, name: p.name, xp_rate: p.xp_rate }))} />
       </div>
     </main>
   );
