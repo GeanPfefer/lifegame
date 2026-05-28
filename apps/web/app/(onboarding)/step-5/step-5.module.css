@@ -53,7 +53,6 @@
   color: var(--text-muted);
 }
 
-/* Pillars */
 .section {
   margin-bottom: 32px;
 }
@@ -76,39 +75,22 @@
 .pillarItem {
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: space-between;
   padding: 10px 14px;
   background: var(--bg-surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
 }
 
-.priority {
-  border-color: var(--accent);
-  background: var(--accent-subtle);
-}
-
 .pillarName {
-  flex: 1;
   font-size: 14px;
   color: var(--text-primary);
 }
 
-.pillarBaseline {
-  font-size: 13px;
+.pillarRate {
+  font-size: 12px;
   color: var(--text-muted);
   font-family: var(--font-mono);
-}
-
-.priorityTag {
-  font-size: 10px;
-  font-weight: 600;
-  color: var(--accent);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  padding: 2px 6px;
-  background: var(--accent-subtle);
-  border-radius: 4px;
 }
 
 .error {

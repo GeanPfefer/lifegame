@@ -8,16 +8,12 @@ interface OnboardingState {
   name: string;
   selectedPillarIds: PillarId[];
   customPillars: Pick<PillarConfig, 'id' | 'name' | 'xpRate'>[];
-  baseline: Partial<Record<PillarId, number>>;
-  priorityPillarIds: PillarId[];
 }
 
 interface OnboardingContextValue {
   state: OnboardingState;
   setName: (name: string) => void;
   setPillars: (ids: PillarId[], custom: OnboardingState['customPillars']) => void;
-  setBaseline: (baseline: Partial<Record<PillarId, number>>) => void;
-  setPriorities: (ids: PillarId[]) => void;
 }
 
 const OnboardingContext = createContext<OnboardingContextValue | null>(null);
@@ -26,8 +22,6 @@ const INITIAL_STATE: OnboardingState = {
   name: '',
   selectedPillarIds: getDefaultPillarIds(),
   customPillars: [],
-  baseline: {},
-  priorityPillarIds: [],
 };
 
 export function OnboardingProvider({ children }: { children: ReactNode }) {
@@ -40,14 +34,8 @@ export function OnboardingProvider({ children }: { children: ReactNode }) {
     custom: OnboardingState['customPillars']
   ) => setState((s) => ({ ...s, selectedPillarIds: ids, customPillars: custom }));
 
-  const setBaseline = (baseline: Partial<Record<PillarId, number>>) =>
-    setState((s) => ({ ...s, baseline }));
-
-  const setPriorities = (priorityPillarIds: PillarId[]) =>
-    setState((s) => ({ ...s, priorityPillarIds }));
-
   return (
-    <OnboardingContext.Provider value={{ state, setName, setPillars, setBaseline, setPriorities }}>
+    <OnboardingContext.Provider value={{ state, setName, setPillars }}>
       {children}
     </OnboardingContext.Provider>
   );

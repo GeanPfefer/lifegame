@@ -1,30 +1,30 @@
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
-import styles from './login.module.css';
+import styles from './signup.module.css';
 
-async function signIn(formData: FormData) {
+async function signUp(formData: FormData) {
   'use server';
   const supabase = await createClient();
-  const { error } = await supabase.auth.signInWithPassword({
+  const { error } = await supabase.auth.signUp({
     email: formData.get('email') as string,
     password: formData.get('password') as string,
   });
-  if (error) redirect('/login?error=' + encodeURIComponent(error.message));
-  redirect('/home');
+  if (error) redirect('/signup?error=' + encodeURIComponent(error.message));
+  redirect('/step-1');
 }
 
 type Props = { searchParams: Promise<{ error?: string }> };
 
-export default async function LoginPage({ searchParams }: Props) {
+export default async function SignupPage({ searchParams }: Props) {
   const { error } = await searchParams;
 
   return (
     <main className={styles.container}>
       <div className={styles.card}>
         <h1 className={styles.title}>LifeGame</h1>
-        <p className={styles.subtitle}>Entre na sua jornada</p>
+        <p className={styles.subtitle}>Crie sua conta para começar</p>
 
-        <form action={signIn} className={styles.form}>
+        <form action={signUp} className={styles.form}>
           <div className={styles.field}>
             <label className={styles.label} htmlFor="email">E-mail</label>
             <input
@@ -45,22 +45,23 @@ export default async function LoginPage({ searchParams }: Props) {
               name="password"
               type="password"
               className={styles.input}
-              placeholder="••••••••"
+              placeholder="Mínimo 6 caracteres"
+              minLength={6}
               required
-              autoComplete="current-password"
+              autoComplete="new-password"
             />
           </div>
 
           {error && <p className={styles.error}>{decodeURIComponent(error)}</p>}
 
           <button type="submit" className={styles.button}>
-            Entrar
+            Criar conta
           </button>
         </form>
 
         <p className={styles.footer}>
-          Não tem conta?{' '}
-          <a href="/signup" className={styles.link}>Criar conta</a>
+          Já tem uma conta?{' '}
+          <a href="/login" className={styles.link}>Entrar</a>
         </p>
       </div>
     </main>

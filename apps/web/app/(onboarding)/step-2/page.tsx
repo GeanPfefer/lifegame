@@ -50,13 +50,13 @@ export default function Step2Page() {
   function handleContinue() {
     const err = validateStep2(state.selectedPillarIds, state.customPillars as PillarConfig[]);
     if (err) { setError(err); return; }
-    router.push('/step-3');
+    router.push('/step-5');
   }
 
   return (
     <OnboardingShell
       step={2}
-      totalSteps={5}
+      totalSteps={3}
       title="Quais pilares você quer acompanhar?"
       subtitle={`Selecione pelo menos ${MIN_ACTIVE_PILLARS}. Você pode ajustar isso depois.`}
     >

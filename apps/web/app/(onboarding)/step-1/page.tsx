@@ -22,7 +22,7 @@ export default function Step1Page() {
   return (
     <OnboardingShell
       step={1}
-      totalSteps={5}
+      totalSteps={3}
       title="Como você quer ser chamado?"
       subtitle="Esse é o nome do seu personagem. Pode ser seu nome real ou um apelido."
     >

@@ -161,7 +161,4 @@ export interface OnboardingData {
   name: string;
   selectedPillarIds: PillarId[];
   customPillars: Pick<PillarConfig, 'id' | 'name' | 'xpRate'>[];
-  /** Sliders 1–10 por pilar — diagnóstico visual apenas, não carrega nível inicial */
-  pillarBaseline: Partial<Record<PillarId, number>>;
-  priorityPillarIds: PillarId[];
 }
