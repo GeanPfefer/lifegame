@@ -14,9 +14,16 @@ export async function createClient() {
           return cookieStore.getAll();
         },
         setAll(cookiesToSet: { name: string; value: string; options: CookieOptions }[]) {
-          cookiesToSet.forEach(({ name, value, options }) =>
-            cookieStore.set(name, value, options)
-          );
+          // setAll só funciona em Server Actions e Route Handlers.
+          // Em Server Components o Supabase pode tentar renovar o token —
+          // ignoramos o erro de escrita; a leitura da sessão ainda funciona.
+          try {
+            cookiesToSet.forEach(({ name, value, options }) =>
+              cookieStore.set(name, value, options)
+            );
+          } catch {
+            // ignorado intencionalmente em Server Components
+          }
         },
       },
     }
