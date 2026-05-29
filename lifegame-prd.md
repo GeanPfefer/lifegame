@@ -1,5 +1,5 @@
 # LifeGame — Product Requirements Document
-> Documento vivo de design. Última atualização reflete todas as decisões tomadas até agora.
+> Documento vivo de design. Última atualização: 2026-05-28
 > Para retomar o projeto em qualquer IA: cole este documento e diga "quero continuar desenvolvendo o LifeGame a partir deste PRD."
 
 ---
@@ -8,7 +8,8 @@
 
 **Nome provisório:** LifeGame  
 **Plataformas:** Desktop, Web, Mobile (todas)  
-**Estágio atual:** Conceito estruturado — ainda não há código  
+**Estágio atual:** Em desenvolvimento ativo — auth, onboarding, registro de atividades e histórico implementados na web  
+**Repositório:** https://github.com/GeanPfefer/lifegame  
 **Público inicial:** O próprio criador (uso pessoal para validar o sistema)  
 **Público futuro:** Aberto ao público após o sistema estar bem estruturado e funcional
 
@@ -72,9 +73,16 @@ XP = tempo (min) × taxa do pilar × multiplicador de bônus
 
 **Teto de bônus:** ×2,5 total (evita distorções extremas)
 
-### O que foi REMOVIDO da versão anterior
-- ~~Dificuldade percebida (1–3)~~ — subjetivo demais, removido
-- ~~Frequência punindo XP~~ — desmotivador, removido. Consistência só recompensa.
+### Implementação dos bônus (decisão técnica)
+- Bônus são detectados automaticamente no servidor no momento do registro
+- `primeiro_do_dia`: consulta `xp_records` do dia atual (qualquer pilar)
+- `pilar_esquecido`: consulta `xp_records` dos últimos 5 dias para o pilar
+- `sequencia_ativa`: consulta `xp_records` dos 6 dias anteriores; se todos têm registro, aplica bônus (7º dia consecutivo)
+- Bônus são recalculados no save — não apenas no preview — para evitar race conditions
+
+### O que foi REMOVIDO
+- ~~Dificuldade percebida (1–3)~~ — subjetivo demais
+- ~~Frequência punindo XP~~ — desmotivador. Consistência só recompensa.
 
 ---
 
@@ -101,7 +109,7 @@ Eventos são ações sem duração — um momento, não uma atividade. Existem 3
   - Financeiro: delta em R$ (quitou R$5k de dívida = 500 XP)
   - Saúde: delta em métrica verificável (perdeu 5kg em 3 meses = XP proporcional)
   - Trabalho/Propósito: mudança de cargo, área ou renda
-  - Relações/Mente: estados binários com XP fixo por categoria (saiu de relação tóxica, começou terapia)
+  - Relações/Mente: estados binários com XP fixo por categoria
 
 ### Por que é difícil trapacear
 - Tempo não escala infinito (realidade limita)
@@ -117,6 +125,7 @@ Eventos são ações sem duração — um momento, não uma atividade. Existem 3
 - 50 níveis totais por pilar
 - Nível geral do personagem = média dos níveis de todos os pilares ativos
 - Curva exponencial: começo rápido, meio desafiador, topo quase inalcançável
+- Fórmula: `XP para nível L = ROUND(10 × 1,6^(L-1))` — espelhada no banco via função SQL
 
 ### As 5 eras
 
@@ -137,11 +146,6 @@ Eventos são ações sem duração — um momento, não uma atividade. Existem 3
 **Expansão (21–35):** análise de padrões mensais, comparativo de períodos, quests de longo prazo, pilares customizáveis  
 **Maestria (36–45):** relatório anual de vida, predição de tendências, modo foco com IA, exportação de dados  
 **Lenda (46–50):** perfil público (quando abrir ao público), mentoria de quests, acesso antecipado a features  
-
-### Filosofia da curva
-- Níveis 1–10 rápidos: cria hábito antes de qualquer compromisso sério
-- Níveis 11–35: coração do produto, cobre anos de uso real
-- Níveis 46–50: quase inalcançável por design — símbolo real quando abrir ao público
 
 ---
 
@@ -169,145 +173,177 @@ O app sugere quests e ações disponíveis com base em:
 - Quests em andamento
 - Hora do dia e histórico de hábitos
 
-O usuário nunca é obrigado — o app mostra o que está disponível, a escolha é sempre livre.
-
 ---
 
 ## 7. Onboarding (primeiro login)
 
-5 etapas. Duração estimada: 3–5 minutos.
+**3 etapas** (etapas 3 e 4 do design original foram removidas — ver decisões de design).
 
 ### Etapa 1 — Você
 - Campo: nome (como quer ser chamado)
-- **REMOVIDO:** pergunta sobre "momento que está vivendo" — vaga, sem ancoragem objetiva, não alimenta nenhuma decisão do sistema
 
 ### Etapa 2 — Pilares
 - Apresenta os 7 pilares padrão pré-selecionados
 - Usuário pode desmarcar (mínimo 3)
-- Usuário pode adicionar pilares extras (Espiritualidade, Criatividade, etc.)
+- Usuário pode adicionar pilares personalizados
 
-### Etapa 3 — Estado atual
-- Sliders de 1–10 por pilar ativo
-- **Finalidade:** diagnóstico visual apenas — o usuário vê onde está
-- **IMPORTANTE:** esses valores NÃO carregam nível inicial. Todos começam do nível 1 em todos os pilares. Quem tem nível alto vai naturalmente subir mais rápido pelo uso.
-- Mensagem de contexto: "Ninguém mais vê isso — seja honesto com você mesmo"
-
-### Etapa 4 — Prioridades
-- Usuário escolhe até 3 pilares para focar nos próximos 3 meses
-- Esses pilares recebem sugestões de quest prioritárias
-- Afeta as sugestões do app, não o XP
-
-### Etapa 5 — Personagem
-- Exibe o personagem criado: nome, nível 1, radar inicial baseado nos sliders
-- Apresenta os pilares ativos e as prioridades escolhidas
-- Nota explicativa: "Esses valores são sua linha de base. Cada ação registrada constrói seu personagem a partir daqui."
+### Etapa 3 — Personagem *(era etapa 5)*
+- Exibe o personagem criado: nome, Nível 1, Era: Despertar
+- Lista os pilares ativos com a taxa de XP de cada um
 - CTA: "Começar a jornada"
+- Ao confirmar: salva `name` e `onboarding_completed_at` no perfil, insere pilares em `user_pillars`
+
+### O que foi REMOVIDO do onboarding original
+- ~~Etapa 3 — Sliders de baseline (1–10)~~ — diagnóstico visual sem impacto no sistema; removido por adicionar fricção sem valor
+- ~~Etapa 4 — Seleção de prioridades~~ — afetava apenas sugestões de quest (ainda não implementadas); removido para simplificar o fluxo inicial
 
 ---
 
-## 8. Decisões de design registradas
+## 8. Fluxo de autenticação
+
+### Rotas
+| Rota | Comportamento |
+|------|--------------|
+| `/` | Roteador inteligente: sem sessão → `/login`; com sessão + onboarding feito → `/home`; com sessão sem onboarding → `/step-1` |
+| `/login` | Server Action via Supabase Auth; sucesso → `/home` |
+| `/signup` | Server Action via Supabase Auth; sucesso → `/step-1` |
+| `/forgot-password` | Envia e-mail de reset via `supabase.auth.resetPasswordForEmail`; em dev, e-mail chega no Mailpit (porta 54324) |
+| `/auth/callback` | Route Handler que troca o `code` por sessão (PKCE); redireciona para `?next=` |
+| `/reset-password` | Define nova senha via `supabase.auth.updateUser`; redireciona para `/home` |
+| `/settings` | Exibe dados da conta e formulário de troca de senha |
+| `/history` | Timeline de atividades registradas agrupada por dia |
+| `/step-1` a `/step-3` | Protegidas por auth guard no layout do grupo `(onboarding)` |
+| `/home` | Protegida por auth guard no layout do grupo `(app)` |
+
+### Decisões técnicas de auth
+- Auth via `@supabase/ssr` com cookies — necessário para Server Components lerem a sessão
+- Server Actions para login/signup — garante que o cookie é setado antes do redirect
+- Layouts assíncronos como auth guards — padrão Next.js App Router
+- `resetPasswordForEmail` chamado do cliente browser (PKCE requer código de verificação armazenado em cookie)
+- `server.ts` usa try/catch no `setAll` de cookies — Server Components não podem escrever cookies, mas a leitura da sessão funciona normalmente
+- Cliente browser usa `createBrowserClient` do `@supabase/ssr` (não o vanilla `createClient`) para ler sessão dos cookies em sincronia com o servidor
+
+---
+
+## 9. Banco de dados
+
+### Tabelas principais
+
+| Tabela | Função |
+|--------|--------|
+| `profiles` | Dados do usuário (nome, onboarding_completed_at) |
+| `pillar_catalog` | Catálogo dos 7 pilares padrão com taxas XP |
+| `user_pillars` | Pilares ativos por usuário (xp_total, level, is_active) |
+| `xp_records` | Histórico imutável de atividades registradas |
+| `life_events` | Eventos sem duração (marcos, conquistas, mudanças de estado) |
+| `quests` | Quests do usuário |
+| `quest_missions` | Sub-missões de uma quest |
+
+### Triggers automáticos
+- `on_auth_user_created` → cria row em `profiles` automaticamente no signup
+- `on_xp_record_insert` → atualiza `xp_total` e `level` em `user_pillars` ao inserir atividade
+- `on_life_event_insert` → mesmo comportamento para eventos de vida
+- `on_mission_completed` → auto-completa a quest quando todas as missões estão concluídas
+
+### View
+- `character_stats` → agrega nível e XP de todos os pilares ativos por usuário
+
+### Acesso local (desenvolvimento)
+- Studio visual: `http://127.0.0.1:54323`
+- URL PostgreSQL direta: `postgresql://postgres:postgres@127.0.0.1:54322/postgres`
+- Subir: `npx supabase start` (dentro de `~/lifegame`)
+- Resetar dados: `npx supabase db reset`
+
+---
+
+## 10. Decisões de design registradas
 
 | Decisão | Escolha feita | Motivo |
 |---------|--------------|--------|
 | Nível do personagem | Média dos níveis dos pilares | Representa a vida completa, não uma área só |
-| Âncora de XP | Tempo (único input do usuário) | Objetivo, não infláveis |
+| Âncora de XP | Tempo (único input do usuário) | Objetivo, não inflável |
 | Dificuldade percebida | Removida | Subjetiva demais |
 | Frequência punindo XP | Removida | Desmotivador |
 | Nível inicial pelo onboarding | Removido | XP deve ser ganho, não declarado |
 | Stack técnica | React Native + Expo + Next.js + Supabase + TypeScript | Multiplataforma real, compartilhamento de lógica, início rápido sem infra |
-| Início do desenvolvimento | Web + Mobile simultâneos (monorepo) | Mesmo código, mesma experiência desde o dia 1 |
 | Pilares | Customizáveis por usuário | Cada vida é diferente |
 | XP de quests | Definido antes de começar | Remove viés de inflação pós-conclusão |
+| Etapas 3 e 4 do onboarding | Removidas | Baseline sem impacto no sistema; prioridades sem quests implementadas — fricção desnecessária no fluxo inicial |
+| Auth via Server Actions | Escolhido sobre client-side | Cookie setado server-side é necessário para SSR ler a sessão |
+| `xp_records` imutável | Update bloqueado por design no schema | Histórico de XP não pode ser editado — integridade do sistema |
+| Bônus recalculados no save | Não confia no preview do cliente | Evita race condition se outro registro acontece entre preview e submit |
+| Cliente browser usa `createBrowserClient` | Em vez do vanilla `createClient` do supabase-js | Sessão gravada em cookies pelo servidor; vanilla lia do localStorage e não encontrava o usuário |
+| `setAll` de cookies em try/catch no server.ts | Ignora erro silenciosamente em Server Components | Next.js só permite escrever cookies em Server Actions e Route Handlers; a leitura da sessão funciona normalmente |
 
 ---
 
-## 9. Stack técnica
-
-### Decisão
-Híbrido React Native + Next.js compartilhando lógica e tipos em TypeScript.
+## 11. Stack técnica
 
 ### Frontend
-| Camada | Tecnologia | Motivo |
-|--------|-----------|--------|
-| Mobile (iOS + Android) | React Native + Expo | App nativo real, um código só, sem PWA |
-| Web + Desktop | Next.js | Mesmo projeto do backend, zero overhead |
-| Linguagem | TypeScript strict | Tipos compartilhados entre mobile e web |
+| Camada | Tecnologia |
+|--------|-----------|
+| Mobile (iOS + Android) | React Native + Expo 56 |
+| Web + Desktop | Next.js 15 (App Router) |
+| Linguagem | TypeScript strict |
+| Estilo (web) | CSS Modules com variáveis de tema escuro |
 
 ### Backend
-| Camada | Tecnologia | Motivo |
-|--------|-----------|--------|
-| API | Next.js API Routes | Sem servidor extra, co-locado com o frontend web |
-| Banco de dados | PostgreSQL via Supabase | Robusto para histórico e cálculo de XP |
-| Auth | Supabase Auth | Pronto para uso, não precisa construir |
-| Cache | Redis (quando necessário) | Performance em cálculos de XP e ranking |
-| Realtime | Supabase Realtime | Sync entre dispositivos do mesmo usuário |
-
-### Por que Supabase no início
-- Postgres + Auth + Realtime prontos — foco no produto, não em infra
-- Fácil de migrar para infraestrutura própria quando escalar
-- Plano gratuito generoso para desenvolvimento solo
+| Camada | Tecnologia |
+|--------|-----------|
+| Server Actions | Next.js (`'use server'`) |
+| Banco de dados | PostgreSQL via Supabase |
+| Auth | Supabase Auth + `@supabase/ssr` |
+| Realtime | Supabase Realtime (futuro) |
 
 ### Estrutura de repositório
 ```
 lifegame/
 ├── apps/
-│   ├── mobile/          # React Native + Expo
-│   └── web/             # Next.js (web + API)
+│   ├── mobile/                    # React Native + Expo
+│   └── web/
+│       ├── app/
+│       │   ├── (app)/home/        # Dashboard + registro de atividades
+│       │   ├── (onboarding)/      # Steps 1–3 com auth guard
+│       │   ├── login/             # Página de login
+│       │   ├── signup/            # Página de cadastro
+│       │   └── page.tsx           # Roteador raiz inteligente
+│       └── lib/supabase/          # Clientes SSR e browser
 ├── packages/
-│   ├── core/            # lógica de XP, níveis, quests (compartilhada)
-│   ├── types/           # TypeScript types compartilhados
-│   └── ui/              # componentes compartilhados (opcional)
-└── CLAUDE.md            # contexto para Claude Code
-```
-
-### CLAUDE.md inicial (para Claude Code)
-```markdown
-# LifeGame
-
-Leia `lifegame-prd.md` antes de qualquer tarefa.
-
-## Stack
-- Mobile: React Native + Expo (apps/mobile)
-- Web: Next.js (apps/web)
-- Backend: Next.js API Routes (apps/web/pages/api)
-- Banco: Supabase (PostgreSQL + Auth + Realtime)
-- Linguagem: TypeScript strict em tudo
-
-## Comandos
-- `npm run dev:web` — Next.js dev server
-- `npm run dev:mobile` — Expo dev server
-- `npm run build` — build de produção
-- `npm test` — Jest
-
-## Convenções
-- TypeScript strict, sem `any`
-- Commits em português, modo imperativo
-- Lógica de negócio em packages/core, nunca nos apps
+│   ├── core/                      # Lógica de XP, níveis, quests, onboarding
+│   └── types/                     # TypeScript types + tipos do banco
+└── supabase/
+    └── migrations/                # Schema, funções, triggers, RLS, seed
 ```
 
 ---
 
-## 10. Próximos temas a explorar
+## 12. O que está implementado (web)
 
-- [ ] Tela principal pós-onboarding (home do app)
+- [x] Schema completo do banco com triggers e RLS
+- [x] Autenticação — login, signup, logout implícito por sessão
+- [x] Recuperação de senha — forgot-password → e-mail (Mailpit em dev) → reset-password
+- [x] Roteamento inteligente na raiz (`/`)
+- [x] Onboarding em 3 etapas (nome → pilares → confirmação)
+- [x] Dashboard home — radar de vida SVG, cards de pilares com barra de XP
+- [x] Registro de atividades — modal com seleção de pilar, tempo, preview de XP ao vivo, bônus automáticos
+- [x] Histórico de atividades — timeline agrupada por dia, total de XP diário e semanal, badges de bônus
+- [x] Configurações — página com dados da conta e formulário de troca de senha
+- [x] Nav compartilhada — barra top fixa (AppNav) com Home, Histórico e Configurações em todas as telas autenticadas
+
+---
+
+## 13. Próximos temas a explorar
+
 - [ ] Fluxo de criação de uma quest
-- [ ] Check-in diário (como é a experiência de 30 segundos)
+- [ ] Check-in diário (experiência de 30 segundos)
 - [ ] Sistema de insights automáticos entre pilares
-- [ ] Schema do banco de dados (tabelas e relações)
+- [ ] App mobile (Expo) — replicar auth e dashboard
 - [ ] Modelo de monetização (quando abrir ao público)
-- [ ] Verificação social leve para eventos (v2, quando público)
 - [ ] Integrações externas (Apple Health, Google Fit, calendário)
 
-**Resolvidos:**
-- [x] Stack técnica — React Native + Expo + Next.js + Supabase + TypeScript
-- [x] Sistema de XP — fórmula, bônus automáticos, eventos
-- [x] Sistema de níveis e eras
-- [x] Onboarding — 5 etapas definidas
-- [x] Fluxo Chat (ideação) → PRD (ponte) → Claude Code (execução)
-
 ---
 
-## 10. Como usar este documento
+## 14. Como usar este documento
 
 **Para continuar em outra sessão de IA:**
 1. Cole este documento inteiro no início da conversa
@@ -317,4 +353,4 @@ Leia `lifegame-prd.md` antes de qualquer tarefa.
 **Para atualizar após novas decisões:**
 - Adicione à seção "Decisões de design registradas"
 - Atualize a seção relevante com o novo conceito
-- Mova itens da lista "Próximos temas" para as seções correspondentes quando explorados
+- Mova itens da lista "Próximos temas" para "O que está implementado" quando concluídos
