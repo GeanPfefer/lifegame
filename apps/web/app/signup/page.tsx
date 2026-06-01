@@ -21,7 +21,7 @@ export default async function SignupPage({ searchParams }: Props) {
   return (
     <main className={styles.container}>
       <div className={styles.card}>
-        <h1 className={styles.title}>LifeGame</h1>
+        <h1 className={styles.title}>Anima</h1>
         <p className={styles.subtitle}>Crie sua conta para começar</p>
 
         <form action={signUp} className={styles.form}>

@@ -1,5 +1,5 @@
 import { createServerClient, type CookieOptions } from '@supabase/ssr';
-import type { Database } from '@lifegame/types';
+import type { Database } from '@anima/types';
 import { cookies } from 'next/headers';
 
 export async function createClient() {

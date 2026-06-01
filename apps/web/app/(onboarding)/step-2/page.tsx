@@ -5,125 +5,110 @@ import { useRouter } from 'next/navigation';
 import { OnboardingShell } from '@/components/onboarding/onboarding-shell';
 import { OnboardingButton } from '@/components/onboarding/onboarding-button';
 import { useOnboarding } from '@/contexts/onboarding-context';
-import { validateStep2 } from '@lifegame/core';
-import { DEFAULT_PILLARS, MIN_ACTIVE_PILLARS } from '@lifegame/types';
-import type { PillarId, PillarConfig } from '@lifegame/types';
+import {
+  ARCHETYPE_QUESTIONS,
+  ARCHETYPES,
+  calculateArchetype,
+  getDominantArchetype,
+} from '@/lib/archetypes';
+import type { ArchetypeResult } from '@/lib/archetypes';
 import styles from './step-2.module.css';
+
+type Phase = 'quiz' | 'result';
 
 export default function Step2Page() {
   const router = useRouter();
-  const { state, setPillars } = useOnboarding();
-  const [error, setError] = useState<string | null>(null);
-  const [newPillarName, setNewPillarName] = useState('');
+  const { setArchetype } = useOnboarding();
 
-  const totalActive = state.selectedPillarIds.length + state.customPillars.length;
+  const [phase, setPhase]     = useState<Phase>('quiz');
+  const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [result, setResult]   = useState<ArchetypeResult | null>(null);
 
-  function toggleDefault(id: PillarId) {
-    const isSelected = state.selectedPillarIds.includes(id);
-    const newIds = isSelected
-      ? state.selectedPillarIds.filter((p) => p !== id)
-      : [...state.selectedPillarIds, id];
-    setError(null);
-    setPillars(newIds, state.customPillars);
+  const answeredCount = Object.keys(answers).length;
+  const canSubmit     = answeredCount === ARCHETYPE_QUESTIONS.length;
+
+  function selectOption(questionId: string, label: string) {
+    setAnswers((prev) => ({ ...prev, [questionId]: label }));
   }
 
-  function addCustomPillar() {
-    const name = newPillarName.trim();
-    if (!name || name.length < 2) return;
-    const id = `custom_${name.toLowerCase().replace(/\s+/g, '_')}_${Date.now()}`;
-    const pillar: Pick<PillarConfig, 'id' | 'name' | 'xpRate'> = {
-      id,
-      name,
-      xpRate: 1.0,
-    };
-    setPillars(state.selectedPillarIds, [...state.customPillars, pillar]);
-    setNewPillarName('');
-  }
-
-  function removeCustom(id: PillarId) {
-    setPillars(
-      state.selectedPillarIds,
-      state.customPillars.filter((p) => p.id !== id)
-    );
+  function handleSubmit() {
+    const calc = calculateArchetype(answers);
+    setResult(calc);
+    setPhase('result');
   }
 
   function handleContinue() {
-    const err = validateStep2(state.selectedPillarIds, state.customPillars as PillarConfig[]);
-    if (err) { setError(err); return; }
-    router.push('/step-5');
+    if (!result) return;
+    setArchetype(answers, result);
+    router.push('/step-3');
+  }
+
+  if (phase === 'result' && result) {
+    const dominant  = getDominantArchetype(result);
+    const archetype = ARCHETYPES[dominant];
+    const sorted    = (Object.entries(result) as [keyof ArchetypeResult, number][])
+      .sort((a, b) => b[1] - a[1]);
+
+    return (
+      <OnboardingShell step={2} totalSteps={5} title="Seu perfil" subtitle="Combinação única baseada nas suas respostas" backHref="/step-2">
+        <div className={styles.resultCard}>
+          <span className={styles.emoji}>{archetype.emoji}</span>
+          <h2 className={styles.archetypeName}>{archetype.name}</h2>
+          <p className={styles.archetypeDesc}>{archetype.description}</p>
+        </div>
+
+        <div className={styles.bars}>
+          {sorted.map(([id, pct]) => (
+            <div key={id} className={styles.barRow}>
+              <span className={styles.barLabel}>
+                {ARCHETYPES[id].emoji} {ARCHETYPES[id].name}
+              </span>
+              <div className={styles.barTrack}>
+                <div className={styles.barFill} style={{ width: `${pct}%` }} />
+              </div>
+              <span className={styles.barPct}>{pct}%</span>
+            </div>
+          ))}
+        </div>
+
+        <OnboardingButton onClick={handleContinue}>
+          Continuar →
+        </OnboardingButton>
+      </OnboardingShell>
+    );
   }
 
   return (
     <OnboardingShell
       step={2}
-      totalSteps={3}
-      title="Quais pilares você quer acompanhar?"
-      subtitle={`Selecione pelo menos ${MIN_ACTIVE_PILLARS}. Você pode ajustar isso depois.`}
+      totalSteps={5}
+      title="Como você funciona?"
+      subtitle={`${answeredCount} de ${ARCHETYPE_QUESTIONS.length} respondidas`}
+      backHref="/step-1"
     >
-      <div className={styles.grid}>
-        {DEFAULT_PILLARS.map((pillar) => {
-          const selected = state.selectedPillarIds.includes(pillar.id);
-          return (
-            <button
-              key={pillar.id}
-              className={`${styles.pillarCard} ${selected ? styles.selected : ''}`}
-              onClick={() => toggleDefault(pillar.id)}
-              type="button"
-            >
-              <span className={styles.pillarName}>{pillar.name}</span>
-              <span className={styles.pillarFocus}>{pillar.xpRate}× XP/min</span>
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Custom pillars */}
-      {state.customPillars.length > 0 && (
-        <div className={styles.customList}>
-          {state.customPillars.map((p) => (
-            <div key={p.id} className={styles.customTag}>
-              <span>{p.name}</span>
-              <button
-                type="button"
-                className={styles.removeBtn}
-                onClick={() => removeCustom(p.id)}
-                aria-label={`Remover ${p.name}`}
-              >
-                ×
-              </button>
+      <div className={styles.questions}>
+        {ARCHETYPE_QUESTIONS.map((q) => (
+          <div key={q.id} className={styles.question}>
+            <p className={styles.questionText}>{q.text}</p>
+            <div className={styles.options}>
+              {q.options.map((opt) => (
+                <button
+                  key={opt.label}
+                  type="button"
+                  className={`${styles.chip} ${answers[q.id] === opt.label ? styles.selected : ''}`}
+                  onClick={() => selectOption(q.id, opt.label)}
+                >
+                  {opt.label}
+                </button>
+              ))}
             </div>
-          ))}
-        </div>
-      )}
-
-      {/* Add custom */}
-      <div className={styles.addCustom}>
-        <input
-          className={styles.customInput}
-          type="text"
-          placeholder="+ Adicionar pilar personalizado"
-          value={newPillarName}
-          maxLength={30}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewPillarName(e.target.value)}
-          onKeyDown={(e) => e.key === 'Enter' && addCustomPillar()}
-        />
-        {newPillarName.trim().length >= 2 && (
-          <button type="button" className={styles.addBtn} onClick={addCustomPillar}>
-            Adicionar
-          </button>
-        )}
+          </div>
+        ))}
       </div>
 
-      {error && <p className={styles.error}>{error}</p>}
-
-      <div className={styles.footer}>
-        <p className={styles.count}>
-          {totalActive} pilar{totalActive !== 1 ? 'es' : ''} selecionado{totalActive !== 1 ? 's' : ''}
-        </p>
-        <OnboardingButton onClick={handleContinue} disabled={totalActive < MIN_ACTIVE_PILLARS}>
-          Continuar →
-        </OnboardingButton>
-      </div>
+      <OnboardingButton onClick={handleSubmit} disabled={!canSubmit}>
+        Ver meu perfil →
+      </OnboardingButton>
     </OnboardingShell>
   );
 }

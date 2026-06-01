@@ -13,4 +13,11 @@ config.resolver.nodeModulesPaths = [
   path.resolve(workspaceRoot, 'node_modules'),
 ];
 
+// Força uma única instância de React/React Native no monorepo.
+// Sem isso, o Metro resolve duas cópias e os hooks quebram.
+config.resolver.extraNodeModules = {
+  react: path.resolve(workspaceRoot, 'node_modules/react'),
+  'react-native': path.resolve(workspaceRoot, 'node_modules/react-native'),
+};
+
 module.exports = config;

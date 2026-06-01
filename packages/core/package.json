@@ -1,5 +1,5 @@
 {
-  "name": "@lifegame/core",
+  "name": "@anima/core",
   "version": "0.0.1",
   "private": true,
   "main": "./src/index.ts",
@@ -12,7 +12,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@lifegame/types": "*"
+    "@anima/types": "*"
   },
   "devDependencies": {
     "@types/jest": "^29.5.14",

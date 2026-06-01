@@ -1,31 +1,14 @@
-import { Text, View, StyleSheet } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
+import { ActivityIndicator, View } from 'react-native';
+import { colors } from '@/constants/theme';
 
-export default function HomeScreen() {
+/**
+ * Tela inicial vazia — o root _layout.tsx redireciona para a rota correta
+ * assim que o estado de auth é resolvido.
+ */
+export default function IndexScreen() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>LifeGame</Text>
-      <Text style={styles.subtitle}>Em construção.</Text>
-      <StatusBar style="auto" />
+    <View style={{ flex: 1, backgroundColor: colors.bg, alignItems: 'center', justifyContent: 'center' }}>
+      <ActivityIndicator color={colors.accent} size="large" />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#0a0a0a',
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#ffffff',
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#888888',
-    marginTop: 8,
-  },
-});

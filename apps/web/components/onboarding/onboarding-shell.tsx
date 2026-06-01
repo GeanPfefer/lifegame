@@ -8,6 +8,7 @@ interface OnboardingShellProps {
   totalSteps: number;
   title: string;
   subtitle?: string;
+  backHref?: string;
   children: React.ReactNode;
 }
 
@@ -16,6 +17,7 @@ export function OnboardingShell({
   totalSteps,
   title,
   subtitle,
+  backHref,
   children,
 }: OnboardingShellProps) {
   const progress = (step / totalSteps) * 100;
@@ -27,9 +29,13 @@ export function OnboardingShell({
         <div className={styles.progressBar}>
           <div className={styles.progressFill} style={{ width: `${progress}%` }} />
         </div>
-        <p className={styles.stepLabel}>
-          Etapa {step} de {totalSteps}
-        </p>
+        <div className={styles.topRow}>
+          {backHref
+            ? <Link href={backHref} className={styles.backBtn}>← Voltar</Link>
+            : <span />
+          }
+          <p className={styles.stepLabel}>Etapa {step} de {totalSteps}</p>
+        </div>
 
         {/* Header */}
         <div className={styles.header}>

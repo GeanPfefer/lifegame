@@ -1,5 +1,5 @@
 {
-  "name": "@lifegame/web",
+  "name": "@anima/web",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -9,13 +9,14 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@lifegame/core": "*",
-    "@lifegame/types": "*",
+    "@anima/core": "*",
+    "@anima/types": "*",
     "@supabase/ssr": "^0.10.3",
     "@supabase/supabase-js": "^2.48.1",
     "next": "^15.1.7",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-markdown": "^10.1.0"
   },
   "devDependencies": {
     "@types/node": "^22.10.6",

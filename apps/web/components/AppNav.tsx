@@ -5,7 +5,9 @@ import styles from './AppNav.module.css';
 
 const NAV_ITEMS = [
   { href: '/home',     label: 'Home' },
+  { href: '/quests',   label: 'Quests' },
   { href: '/history',  label: 'Histórico' },
+  { href: '/chat',     label: 'IA' },
   { href: '/settings', label: 'Configurações' },
 ];
 
@@ -14,7 +16,7 @@ export default function AppNav() {
 
   return (
     <nav className={styles.nav}>
-      <a href="/home" className={styles.logo}>LifeGame</a>
+      <a href="/home" className={styles.logo}>Anima</a>
       <div className={styles.links}>
         {NAV_ITEMS.map(item => (
           <a

@@ -1,4 +1,4 @@
-# LifeGame
+# Anima
 
 Leia `lifegame-prd.md` antes de qualquer tarefa.
 

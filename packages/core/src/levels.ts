@@ -1,4 +1,4 @@
-import type { Era, EraName } from '@lifegame/types';
+import type { Era, EraName } from '@anima/types';
 
 export const MAX_LEVEL = 50;
 export const MIN_LEVEL = 1;

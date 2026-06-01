@@ -30,7 +30,7 @@ export const DEFAULT_PILLARS: PillarConfig[] = [
   { id: 'lazer',    name: 'Lazer',     xpRate: 0.8, isDefault: true, isCustom: false },
 ];
 
-export const MIN_ACTIVE_PILLARS = 3;
+export const MIN_ACTIVE_PILLARS = 1;
 export const MAX_PRIORITY_PILLARS = 3;
 
 // ─── User ─────────────────────────────────────────────────────────────────────

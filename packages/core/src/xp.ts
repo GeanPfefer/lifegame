@@ -1,4 +1,4 @@
-import type { ActivityBonusType, PillarConfig } from '@lifegame/types';
+import type { ActivityBonusType, PillarConfig } from '@anima/types';
 
 const BONUS_RATES: Record<ActivityBonusType, number> = {
   forgotten_pillar: 0.5,

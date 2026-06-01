@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
-import { getXPToNextLevel, getTotalXPForLevel, getEraForLevel, getCharacterLevel } from '@lifegame/core';
+import { getXPToNextLevel, getTotalXPForLevel, getEraForLevel, getCharacterLevel } from '@anima/core';
 import LifeRadar from './_components/LifeRadar';
 import LogActivityModal from './_components/LogActivityModal';
 import styles from './home.module.css';

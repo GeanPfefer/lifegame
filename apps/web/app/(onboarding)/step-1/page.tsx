@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { OnboardingShell } from '@/components/onboarding/onboarding-shell';
 import { OnboardingButton } from '@/components/onboarding/onboarding-button';
 import { useOnboarding } from '@/contexts/onboarding-context';
-import { validateStep1 } from '@lifegame/core';
+import { validateStep1 } from '@anima/core';
 import styles from './step-1.module.css';
 
 export default function Step1Page() {
@@ -22,7 +22,7 @@ export default function Step1Page() {
   return (
     <OnboardingShell
       step={1}
-      totalSteps={3}
+      totalSteps={5}
       title="Como você quer ser chamado?"
       subtitle="Esse é o nome do seu personagem. Pode ser seu nome real ou um apelido."
     >

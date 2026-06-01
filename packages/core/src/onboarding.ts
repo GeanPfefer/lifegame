@@ -1,5 +1,5 @@
-import type { PillarId, PillarConfig } from '@lifegame/types';
-import { DEFAULT_PILLARS, MIN_ACTIVE_PILLARS } from '@lifegame/types';
+import type { PillarId, PillarConfig } from '@anima/types';
+import { DEFAULT_PILLARS, MIN_ACTIVE_PILLARS } from '@anima/types';
 
 // ─── Step validation ──────────────────────────────────────────
 

@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "LifeGame",
-    "slug": "lifegame",
+    "name": "Anima",
+    "slug": "anima",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "scheme": "lifegame",
+    "scheme": "anima",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/splash-icon.png",
@@ -14,14 +14,14 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.lifegame.app"
+      "bundleIdentifier": "com.anima.app"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#0a0a0a"
       },
-      "package": "com.lifegame.app"
+      "package": "com.anima.app"
     },
     "web": {
       "bundler": "metro",

@@ -4,7 +4,7 @@ const config: Config = {
   preset: 'ts-jest',
   testEnvironment: 'node',
   moduleNameMapper: {
-    '^@lifegame/types$': '<rootDir>/../types/src/index.ts',
+    '^@anima/types$': '<rootDir>/../types/src/index.ts',
   },
 };
 

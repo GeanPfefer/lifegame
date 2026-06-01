@@ -32,7 +32,7 @@ export default function ForgotPasswordPage() {
   return (
     <main className={styles.container}>
       <div className={styles.card}>
-        <h1 className={styles.title}>LifeGame</h1>
+        <h1 className={styles.title}>Anima</h1>
 
         {sent ? (
           <>

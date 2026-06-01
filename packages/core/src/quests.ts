@@ -1,4 +1,4 @@
-import type { Quest, QuestMission, ContextEvent } from '@lifegame/types';
+import type { Quest, QuestMission, ContextEvent } from '@anima/types';
 import { calculateFinancialEventXP, PHYSICAL_ACHIEVEMENT_XP, MEANINGFUL_CONNECTION_XP } from './xp';
 
 export function isQuestComplete(quest: Quest): boolean {

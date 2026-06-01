@@ -2,9 +2,9 @@
 
 import { useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { calculateBonusMultiplier } from '@lifegame/core';
+import { calculateBonusMultiplier } from '@anima/core';
 import { getActivityBonuses, logActivity } from '../actions';
-import type { ActivityBonusType } from '@lifegame/types';
+import type { ActivityBonusType } from '@anima/types';
 import styles from './LogActivityModal.module.css';
 
 type Pillar = { id: string; name: string; xp_rate: number };

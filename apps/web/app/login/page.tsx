@@ -21,7 +21,7 @@ export default async function LoginPage({ searchParams }: Props) {
   return (
     <main className={styles.container}>
       <div className={styles.card}>
-        <h1 className={styles.title}>LifeGame</h1>
+        <h1 className={styles.title}>Anima</h1>
         <p className={styles.subtitle}>Entre na sua jornada</p>
 
         <form action={signIn} className={styles.form}>

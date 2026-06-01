@@ -1,7 +1,7 @@
 import type { NextConfig } from 'next';
 
 const config: NextConfig = {
-  transpilePackages: ['@lifegame/core', '@lifegame/types'],
+  transpilePackages: ['@anima/core', '@anima/types'],
 };
 
 export default config;

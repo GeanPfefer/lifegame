@@ -1,8 +1,8 @@
 'use server';
 
 import { createClient } from '@/lib/supabase/server';
-import { calculateBonusMultiplier } from '@lifegame/core';
-import type { ActivityBonusType } from '@lifegame/types';
+import { calculateBonusMultiplier } from '@anima/core';
+import type { ActivityBonusType } from '@anima/types';
 
 export async function getActivityBonuses(pillarId: string): Promise<ActivityBonusType[]> {
   const supabase = await createClient();

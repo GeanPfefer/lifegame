@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
-import type { Enums } from '@lifegame/types';
+import type { Enums } from '@anima/types';
 import styles from './history.module.css';
 
 // ─── Helpers ──────────────────────────────────────────────────

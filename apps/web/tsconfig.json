@@ -15,10 +15,10 @@
       }
     ],
     "paths": {
-      "@lifegame/types": [
+      "@anima/types": [
         "../../packages/types/src/index.ts"
       ],
-      "@lifegame/core": [
+      "@anima/core": [
         "../../packages/core/src/index.ts"
       ],
       "@/*": [

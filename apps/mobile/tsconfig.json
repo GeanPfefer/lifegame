@@ -4,8 +4,8 @@
     "strict": true,
     "noUncheckedIndexedAccess": true,
     "paths": {
-      "@lifegame/types": ["../../packages/types/src/index.ts"],
-      "@lifegame/core": ["../../packages/core/src/index.ts"],
+      "@anima/types": ["../../packages/types/src/index.ts"],
+      "@anima/core": ["../../packages/core/src/index.ts"],
       "@/*": ["./*"]
     }
   },
